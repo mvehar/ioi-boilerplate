@@ -1,3 +1,15 @@
+
+@font-face {
+  font-family: 'MyriadPro-Regular';
+  src: url('font/MyriadPro-Regular.eot');
+  src: url('font/MyriadPro-Regular.woff2') format('woff2'),
+       url('font/MyriadPro-Regular.woff') format('woff'),
+       url('font/MyriadPro-Regular.ttf') format('truetype'),
+       url('font/MyriadPro-Regular.svg#MyriadPro-Regular') format('svg'),
+       url('font/MyriadPro-Regular.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 /**
 Theme colors
 */
@@ -16,6 +28,7 @@ nav.bg-inverse {
 /** CSS*/
 body {
 	padding-top: 54px;
+	font-family: 'MyriadPro-Regular';
 }
 
 nav .dropdown {
