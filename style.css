@@ -1,0 +1,44 @@
+/**
+Theme colors
+*/
+body {
+	background: #ccc;
+}
+
+nav.bg-inverse {
+	background-color: #fff !important;
+}
+
+.navbar-inverse .navbar-nav .nav-link {
+	color: #000;
+}
+
+/** CSS*/
+body {
+	padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+	body {
+		padding-top: 56px;
+	}
+}
+/* Temporary navbar container fix */
+
+.navbar-toggler {
+	z-index: 1;
+}
+
+@media (max-width: 576px) {
+	nav > .container {
+		width: 100%;
+	}
+}
+
+.lang-en nav .btn-en {
+	font-weight: bold;
+}
+
+.lang-slo nav .btn-slo {
+	font-weight: bold;
+}
