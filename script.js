@@ -1,5 +1,10 @@
 $(document).ready(function(){
     $(".btn-en, .btn-slo").click(function(){
-        $("body").toggleClass("lang-en").toggleClass("lang-slo");
+        var lang = $(this).data("lang");
+        $("body").removeClass("lang-en lang-slo").addClass("lang-"+lang);
+
+        $(this).parents(".dropdown").children("button").text($(this).text());
+
     });
+    $(".btn-en").click();
 });

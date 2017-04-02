@@ -18,6 +18,10 @@ body {
 	padding-top: 54px;
 }
 
+nav .dropdown {
+	display: inline-block;
+}
+
 @media (min-width: 992px) {
 	body {
 		padding-top: 56px;

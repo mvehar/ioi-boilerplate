@@ -37,11 +37,19 @@
 			<div class="container">
 				<div class="float-left"><h3>Naslov igre</h3></div>
 				<div class="float-right">
-					<a class="btn btn-en">ENG</a>
-					<a class="btn btn-slo">SLO</a>
-					<!-- Button trigger modal -->
+					<div class="dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Jezik / Language
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item btn-en" data-lang="en" href="#">ENG</a>
+							<a class="dropdown-item btn-slo" data-lang="slo" href="#">SLO</a>
+						</div>
+					</div>
+
+	
 					<a class="btn btn-primary" data-toggle="modal" data-target="#helpModal">
-					?
+						?
 					</a>
 					
 				</div>
