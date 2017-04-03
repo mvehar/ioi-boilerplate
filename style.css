@@ -1,34 +1,40 @@
-
-@font-face {
-  font-family: 'MyriadPro-Regular';
-  src: url('font/MyriadPro-Regular.eot');
-  src: url('font/MyriadPro-Regular.woff2') format('woff2'),
-       url('font/MyriadPro-Regular.woff') format('woff'),
-       url('font/MyriadPro-Regular.ttf') format('truetype'),
-       url('font/MyriadPro-Regular.svg#MyriadPro-Regular') format('svg'),
-       url('font/MyriadPro-Regular.eot?#iefix') format('embedded-opentype');
-  font-weight: normal;
-  font-style: normal;
-}
 /**
 Theme colors
 */
 body {
-	background: #ccc;
+	background: #fff;
 }
 
 nav.bg-inverse {
-	background-color: #fff !important;
+	background-color: #910b52 !important;
 }
 
 .navbar-inverse .navbar-nav .nav-link {
-	color: #000;
+	color: #fff;
 }
+
+.navbar {
+	color: #fff;
+}
+
+.btn {
+	background-color: #910b52;
+	color: #fff;
+}
+
+p {
+	font-size: 2em;
+}
+
+.navbar .btn {
+	background: #eee;
+	color: #000 !important;
+}
+
 
 /** CSS*/
 body {
 	padding-top: 54px;
-	font-family: 'MyriadPro-Regular';
 }
 
 nav .dropdown {
@@ -58,4 +64,16 @@ nav .dropdown {
 
 .lang-slo nav .btn-slo {
 	font-weight: bold;
+}
+
+body .lang {
+	display: none;
+}
+
+body.lang-en .lang-en {
+	display: inline-block;
+}
+
+body.lang-slo .lang-slo {
+	display: inline-block;
 }
