@@ -33,8 +33,12 @@ p {
 
 
 /** CSS*/
+html, body {
+	height: 100%;
+}
 body {
 	padding-top: 54px;
+	padding-bottom: 54px;
 }
 
 nav .dropdown {
