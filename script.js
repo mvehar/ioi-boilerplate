@@ -1,6 +1,8 @@
 var inactivityTimer;
 var nextSceneTimer;
 var scenes = {};
+var trackActivity = false;
+var drugiPoskus = false;
 $(document).ready(function(){
     console.log("Loaded");
     $(".btn-en, .btn-slo").click(function(){
@@ -63,9 +65,11 @@ function hashChangedListener() {
 }
 
 function resetTimer() {
-    clearTimeout(inactivityTimer);
-    console.log("Activity");
-    inactivityTimer = setTimeout(inactivity, 1000*60*1);
+    if(inactivityTimer)   clearTimeout(inactivityTimer);
+    //console.log("Activity");
+    if(trackActivity){
+        inactivityTimer = setTimeout(inactivity, 1000*60*3);
+    }
 }
 
 function inactivity(){
@@ -88,7 +92,7 @@ function registerScenes(){
 function scene2(){
     console.log('Scene 2');
     var scene = $(".scene2");
-
+    scene.removeClass('go go2');
     scene.addClass('go');
     animateScene(scene);
 
@@ -97,9 +101,12 @@ function scene2(){
     }, 4000);
 
     scheduleNextScene(function(){
-        //next scene
         goTo(3);
+
     }, 5500);
+
+    //Ponastavi drugi poskus
+    drugiPoskus = false;
 
 
 }
@@ -107,22 +114,31 @@ function scene2(){
 function scene3(){
     console.log('Scene 3');
     var scene = $(".scene3");
+    $(".scene2").removeClass('go go2');
     scene.removeClass('go go2');
     scene.addClass('go');
     animateScene(scene);
 
-    var graf = senzorGraf();
-    //Start animation
+    var graf = senzorGraf(document.getElementById("senzorCanvas"));
+    graf.initSample();
+    // Start animation
     animate(200);
-    drawLines(200, ctx2);
+    // drawLines(200, ctx2);
 
-    setTimeout(graf.hit, 11000);
+    document.addEventListener("firstEnergyDone",function(){
+        setTimeout(graf.hit1, 1);
+    })
 
+    document.addEventListener("secondEnergyDone",function(){
+        setTimeout(graf.hit2, 1);
+    })
 
-    scheduleNextScene(function(){
-        goTo(4);
-        scene.removeClass('go');
-    }, 40000)
+    document.addEventListener('secondEnergyDone', function(){
+        scheduleNextScene(function(){
+            goTo(4);
+            scene.removeClass('go');
+        }, 3000);
+    })
 }
 
 function scene4(){
@@ -161,9 +177,34 @@ function scene6(){
     scene.removeClass('go go2');
     scene.addClass('go');
     animateScene(scene);
+    $('input:checkbox').prop('checked', false);
+    $('table tr').removeClass("selected wrong correct");
 
 
+    var graf = senzorGraf(document.getElementById("senzorCanvasTest"));
+    graf.initTest();
 
+    if (!drugiPoskus) {
+        scene.find("table tr").click(function(){
+            var row = $(this);
+            var ok_ans = $(".checkAns").data('ans').split(',');
+            var selected_element = row.find("input")[0];
+            if (row.hasClass("correct") || row.hasClass("wrong")){
+                row.removeClass("wrong correct");
+            } else {
+                if($.inArray(selected_element.value, ok_ans) > -1){
+                    $(this).addClass("correct");
+                } else {
+                    $(this).addClass("wrong");
+                }
+            }
+            var cls =  'selected';
+            row.toggleClass(cls);
+            var checkBoxes = row.find("input[type=checkbox]");
+            checkBoxes.prop("checked", row.hasClass(cls));
+        });
+    }
+    trackActivity = true;
 }
 function scene7(){
     //Graphs
@@ -172,6 +213,18 @@ function scene7(){
     scene.removeClass('go go2');
     scene.addClass('go');
     animateScene(scene);
+
+    var retryBtn = scene.find("a.retry");
+
+    if(drugiPoskus){
+        retryBtn.hide(0);
+    }else{
+        retryBtn.show(0);
+    }
+
+    retryBtn.click(function(){
+        drugiPoskus = true;
+    });
 }
 
 function checkAns(e){
@@ -185,13 +238,15 @@ function checkAns(e){
     var ok_ans = $(this).data('ans').split(',');
 
     var ok = ok_ans.length === answers.length;
-    $.each(ok_ans, function(i, el){
-        if(!$.inArray(this, answers)){
-            ok = false;
-            return;
-        }
-    });
 
+    console.log("CHECK ASN:", ok_ans, answers)
+
+    $.each(ok_ans, function(i, el){
+        if(0>$.inArray(el, answers)){
+            ok = false;
+        }
+        console.log("not same:",ok, el, answers);
+    });
     //
     console.log(ok);
     var html = $("html");
@@ -224,14 +279,29 @@ function animateScene(scene){
         var inMs = parseInt(item.data("in"));
         var outMs = parseInt(item.data("out"));
 
-        console.log("Animate: ",item,  inMs, outMs);
+        // console.log("Animate: ",item,  inMs, outMs);
 
         if(inMs){
             item.hide(0);
-            setTimeout(function(){item.fadeIn(400)},inMs);
+            setTimeout(function(){item.delay(200).fadeIn(400)},inMs);
         }
         if(outMs){
-            setTimeout(function(){item.fadeOut(400)},outMs);
+            setTimeout(function(){item.fadeOut(200)},outMs);
         }
+
+        var inEvent = item.data('inevent');
+        var outEvent = item.data('outevent');
+
+        if(inEvent){
+            $(document).one(inEvent, function(){
+                item.delay(200).fadeIn(500);
+            });
+        }
+        if(outEvent){
+            $(document).one(outEvent, function(){
+                item.fadeOut(200);
+            });
+        }
+
     });
 }

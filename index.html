@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="css/bootstrap-select.min.css">
 		<link href="style.css" rel="stylesheet">
 	</head>
-	<body class="lang-en">
+	<body class="lang-slo">
 		<!-- HELP MODAL-->
 		<!-- Modal -->
 		<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -31,7 +31,6 @@
 						</button>
 					</div>
 					<div class="modal-body " data-l10n-id="navodila">
-						Vsebina navodil ...
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal" data-l10n-id="help-close">Zapri</button>
@@ -42,8 +41,12 @@
 		<!-- Navigation -->
 		<nav class="navbar fixed-top  navbar-inverse bg-inverse">
 			<div class="container">
-				<div class="float-left "><h3 data-l10n-id="title">XRF metoda</h3></div>
+				<div class="float-left "><h3 data-l10n-id="title"></h3></div>
 				<div class="float-right">
+					<a class="btn btn-warning float-left" href="">
+						<i class="fa fa-power-off" aria-hidden="true"></i>
+						<span data-l10n-id="reset-btn"></span>
+					</a> &nbsp;
 					<div class="dropdown">
 						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-l10n-id="lang">
 						Language
@@ -53,11 +56,9 @@
 							<a class="dropdown-item btn-slo" data-lang="slo" href="#" data-l10n-id="lang-slo">SLO</a>
 						</div>
 					</div>
-					
 					<a class="btn" data-toggle="modal" data-target="#helpModal">
 						?
 					</a>
-					
 				</div>
 			</div>
 		</nav>
@@ -69,9 +70,9 @@
 					<img src="images/ziva.svg" class="img-fluid" />
 				</div>
 				<div class="col-sm-8 align-self-center text-center ">
-					<p class="arrow_box" data-l10n-id="scena1-text">POMAGAJ MI TEXT </p>
+					<p class="arrow_box" data-l10n-id="scena1-text"> </p>
 					<img src="images/predmet.png" alt="predmet" style="max-height: 200px;"><br/>
-					<a href="#2" class="btn" data-l10n-id="scena1-zacni">ZAČNI</a>
+					<a href="#2" class="btn" data-l10n-id="scena1-zacni"></a>
 					
 				</div>
 			</div>
@@ -80,48 +81,57 @@
 				<div class="col-sm-6 align-self-center text-center  full-height">
 					<div class="laser-beam blue" style="margin: 150px -30px;"></div>
 					<div class="laser-beam green" style="margin: 0px 15px;"></div>
-					<img src="images/predmet.png" alt="predmet"><br/>
+					<img src="images/target.png" class="target" style="margin: 125px -50px;">
+					<img src="images/target.png" class="target" style="margin: -25px -5px;">
+					<img src="images/predmet.png" alt="predmet" class="subject"><br/>
 				</div>
 				<div class="col-sm-6 align-self-center ">
-					<p class="inout" data-in="100" data-l10n-id="scena2-text">Predmet obsevamo z zvema žarkoma elektronov, da natančno določimo sestavo.</p>
+					<p class="inout" data-in="100" data-l10n-id="scena2-text"></p>
 				</div>
 				
 			</div>
 			<!-- SCENE 3 -->
 			<div class="row scene scene3 full-height" style="display: none;" >
-				<div class="col-sm-6 text-center">
-					<canvas id="canvas" width="500" height="400"></canvas>
-					<p class="inout" data-in="100" data-out="3500" data-l10n-id="scena3-text1">OD BLIZU</p>
-					<p class="inout" data-in="4000" data-out="6500" data-l10n-id="scena3-text2"></p>
-					<p class="inout" data-in="7000" data-out="12000" data-l10n-id="scena3-text3"></p>
-					<p class="inout" data-in="22200" data-out="27000" data-l10n-id="scena3-text4"></p>
-					<p class="inout" data-in="27000" data-out="30000" data-l10n-id="scena3-text5"></p>
-					<p class="inout" data-in="34000" data-out="3000" data-l10n-id="scena3-text5"></p>
-				</div>
-				<div class="col-sm-6  senzor text-center">
-					<div class="col-sm-12 ">
-						<span data-l10n-id="scene3-graph-title"></span>
-						<canvas id="senzorCanvas" width="250" height="200"></canvas>
+				<div style="height: 500px" class="col-sm-12 align-self-center">
+					<div class="row">
+						
+						<div class="col-sm-6 text-center">
+							<canvas id="canvas" width="500" height="400"></canvas>
+						</div>
+						<div class="col-sm-6  senzor text-center ">
+							<div class="col-sm-12 ">
+								<canvas id="senzorCanvas" width="250" height="200"></canvas>
+							</div>
+						</div>
+						<div class="col-sm-12 text-center ">
+							<p></p>
+							<p class="inout" data-outevent="showProton" data-l10n-id="scena3-text0"></p>
+							<p class="inout" data-inevent="showProton" data-outevent="firstElectronHit" data-l10n-id="scena3-text1"></p>
+							<p class="inout" data-inevent="firstElectronHit" data-outevent="firstGapFilled"  data-l10n-id="scena3-text2"></p>
+							<p class="inout" data-inevent="firstGapFilled" data-outevent="firstEnergyDone"" data-l10n-id="scena3-text3"></p>
+							<p class="inout" data-inevent="firstEnergyDone" data-outevent="secondElectronHit"" data-l10n-id="scena3-text4"></p>
+							<p class="inout" data-inevent="secondElectronHit" data-outevent="secondGapFilled" data-l10n-id="scena3-text5"></p>
+							<!-- <p class="inout" data-inevent="secondGapFilled" data-outevent="secondEnergyDone" data-l10n-id="scena3-text6"></p> -->
+						</div>
 					</div>
 				</div>
-				
 			</div>
 			<!-- SCENE 4 -->
 			<div class="row scene scene4 full-height" style="display: none;" >
 				<div class="col-sm-6 align-self-center text-center">
 					<p data-l10n-id="scene4-image-title"></p>
-					<img src="images/xrf1.png">
+					<img src="images/senzor-sample.png">
 				</div>
-				<div class="col-sm-6 align-self-center">
-					<p class="inout" data-out="6500">Vsak predmet ima specifične vrhove</p>
-					<p class="inout" data-in="7000" data-out="12000">Zato lahko </p>
+				<div class="col-sm-6 align-self-center text-center">
+					<p class="inout" data-out="3600" data-l10n-id="scene4-text1" style="font-size: 1.2em"></p>
+					<p class="inout" data-in="4000" data-l10n-id="scene4-text2" style="font-size: 1.2em"></p>
 					<table class="tg">
 						<tr>
 							<th class="tg-9hbo" data-l10n-id="elements-table-head1">ELEMENT</th>
 							<th class="tg-9hbo" data-l10n-id="elements-table-head2">Kα</th>
 							<th class="tg-9hbo" data-l10n-id="elements-table-head3">Kβ</th>
 						</tr>
-						<tr style="background: rgba(200,0,0,0.8); color: #fff">
+						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-mg">Magnezij</td>
 							<td class="tg-yw4l">1,25</td>
 							<td class="tg-yw4l">1,30</td>
@@ -131,7 +141,7 @@
 							<td class="tg-yw4l">3,31</td>
 							<td class="tg-yw4l">3,59</td>
 						</tr>
-						<tr>
+						<tr style="background: rgba(200,0,0,0.8); color: #fff">
 							<td class="tg-yw4l" data-l10n-id="elements-table-fe">Železo</td>
 							<td class="tg-yw4l">6,40</td>
 							<td class="tg-yw4l">7,06</td>
@@ -171,91 +181,89 @@
 			</div>
 			<!-- SCENE 5 -->
 			<div class="row scene scene5 full-height" style="display: none;" >
-				<div class="col-sm-12 align-self-center text-center">
-					<p>Pomagaj Živi ugotoviti kaj sestavlja njeno broško s pomočjo izmerjenih vrhov na grafu in vrednosti v tabeli.</p>
+				<div class="col-sm-4 align-self-center text-right">
+					<img src="images/ziva.svg" class="img-fluid" />
+				</div>
+				<div class="col-sm-8 align-self-center text-center ">
+					<p class="arrow_box" data-l10n-id="scena1-text"></p>
+					<img src="images/predmet.png" alt="predmet" style="max-height: 200px;"><br/>
 				</div>
 			</div>
 			<!-- SCENE 4 -->
 			<div class="row scene scene6 full-height" style="display: none;" >
-				<div class="col-sm-6 text-center  align-self-center">
-					<p>1. Preberi vrednosti vrhov na grafu</p>
-					<img src="images/xrf1.png" /><br>
-					<!--br/>
-					<div class="inout" data-in="4000">
-											<p>3. Izberi elemente</p>
-											<select class="selectpicker" data-ans="mg,k" multiple>
-																	<option value="mg">Magnezij</option>
-																	<option value="k">Kalij</option>
-																	<option value="fe">Železo</option>
-																	<option value="cu">Baker</option>
-																	<option value="zn">Cink</option>
-																	<option value="zr">Cirkoniij</option>
-																	<option value="ag">Srebro</option>
-																	<option value="sn">Kositer</option>
-																	<option value="sb">Antimon</option>
-											</select>
-											<button class="btn checkAns">Preveri odgovor</button>
-					</div-->
+				<div class="col-sm-7 text-center  align-self-center">
+					<p data-l10n-id="scene6-graph-title"></p>
+					<canvas id="senzorCanvasTest" width="250" height="200"></canvas>
 				</div>
-				<div class="col-sm-6 text-center  align-self-center inout" data-in="1000">
-					<p>2. V tabeli poišči za katere elemente gre</p>
+				<div class="col-sm-5 text-center  align-self-center inout" data-in="1000">
+					<p data-l10n-id="scene6-table-title" style="font-size: 1.2em"></p>
 					
 					<table class="tg">
 						<tr>
 							<th class="tg-9hbo" data-l10n-id="elements-table-head1">ELEMENT</th>
 							<th class="tg-9hbo" data-l10n-id="elements-table-head2">Kα</th>
 							<th class="tg-9hbo" data-l10n-id="elements-table-head3">Kβ</th>
+							<th>Označi</th>
 						</tr>
 						<tr >
 							<td class="tg-yw4l" data-l10n-id="elements-table-mg">Magnezij</td>
 							<td class="tg-yw4l">1,25</td>
 							<td class="tg-yw4l">1,30</td>
+							<td><input type="checkbox" name="element" value="MG" /></td>
 						</tr>
 						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-k">Kalij</td>
 							<td class="tg-yw4l">3,31</td>
 							<td class="tg-yw4l">3,59</td>
+							<td><input type="checkbox" name="element" value="K" /></td>
 						</tr>
 						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-fe">Železo</td>
 							<td class="tg-yw4l">6,40</td>
 							<td class="tg-yw4l">7,06</td>
+							<td><input type="checkbox" name="element" value="FE" /></td>
 						</tr>
 						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-cu">Baker</td>
 							<td class="tg-yw4l">8,05</td>
 							<td class="tg-yw4l">8,90</td>
+							<td><input type="checkbox" name="element" value="CU" /></td>
 						</tr>
 						<tr >
 							<td class="tg-yw4l" data-l10n-id="elements-table-zn">Cink</td>
 							<td class="tg-yw4l">8,64</td>
 							<td class="tg-yw4l">9,57</td>
+							<td><input type="checkbox" name="element" value="ZN" /></td>
 						</tr>
 						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-zk">Cirkoniij</td>
 							<td class="tg-yw4l">15,78</td>
 							<td class="tg-yw4l">17,68</td>
+							<td><input type="checkbox" name="element" value="ZK" /></td>
 						</tr>
 						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-ag">Srebro</td>
 							<td class="tg-yw4l">22,16</td>
 							<td class="tg-yw4l">24,94</td>
+							<td><input type="checkbox" name="element" value="AG" /></td>
 						</tr>
 						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-sn">Kositer</td>
 							<td class="tg-yw4l">25,27</td>
 							<td class="tg-yw4l">28,49</td>
+							<td><input type="checkbox" name="element" value="SN" /></td>
 						</tr>
 						<tr>
 							<td class="tg-yw4l" data-l10n-id="elements-table-sb">Antimon</td>
 							<td class="tg-yw4l">26,36</td>
 							<td class="tg-yw4l">29,73</td>
+							<td><input type="checkbox" name="element" value="SB" /></td>
 						</tr>
 					</table>
 					<br />
-					<button class="btn checkAns" data-ans="MG,CU">Preveri odgovor</button>
+					<button class="btn checkAns" data-ans="FE,CU,SN" data-l10n-id="scene6-check-btn"></button>
 				</div>
-				<div class="col-sm-12 text-center ">
+				<div class="col-sm-12 text-center">
 				</div>
 			</div>
 			<!-- SCENE 7 -->
@@ -266,19 +274,19 @@
 						<img src="images/ziva_nok.svg" class="answer_nok">
 					</div>
 					<div>
-						<p class="answer_ok">Odgovor pravilen. </p>
-						<p class="answer_nok">Odgovor napačen. </p>
+						<p class="answer_ok" data-l10n-id="scene7-ok-ans">Odgovor pravilen. </p>
+						<p class="answer_nok" data-l10n-id="scene7-nok-ans">Odgovor napačen. </p>
 					</div>
-					<a href="#1" class="btn">Na začetek</a>
+					<a href="#6" class="btn retry answer_nok" data-l10n-id="scene7-retry">Poskusi ponovno</a>
+					<a href="" class="btn" data-l10n-id="scene7-to-start">Na začetek</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<footer>
 		<nav class="navbar fixed-bottom navbar-inverse bg-inverse">
-			<div class="container text-right">
-				<a class="btn btn-warning float-left" href=""> <i class="fa fa-power-off" aria-hidden="true"></i> Reset</a>
-				IOI - Jaka & Matej -Copyright @ 2017
+			<div class="container text-center">
+				Jaka Šušteršič & Matej Vehar - FRI, UNI LJ
 			</div>
 		</nav>
 	</footer>

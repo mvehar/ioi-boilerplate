@@ -3,6 +3,26 @@
                               window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
   window.requestAnimationFrame = requestAnimationFrame;
 })();
+
+//iPad
+/*
+var rotateStep = 2.1;
+var protonStep = 0.7;
+var dropStep =  4;
+var splitFactor = 1;
+var energySpeed = 0.5;
+var lengthDivider = 2;
+*/
+
+//Web
+var rotateStep = 0.8;
+var dropStep = 12;
+var protonStep = 2;
+var splitFactor = 2;
+var energySpeed = 1;
+var lengthDivider = 1;
+
+
 var index = 0;
 var dropIndex = 0;
 var atomX = 300;
@@ -98,11 +118,13 @@ function animate(current) {
     
     requestAnimationFrame(function () {
         if (current < 359){
-            animate((current + 1.2) % 360);
+            animate((current + rotateStep) % 360);
         } else if (animateCircle) {
             index += 1;
             animateCircle = false;
-            drawMovingPoint(canvas.width, 0, atom.positions[dropIndex][0][0], atom.positions[dropIndex][0][1], 0, 1, ctx, "blue");
+            console.log("showProton")
+            event("showProton");
+            drawMovingPoint(canvas.width, 0, atom.positions[dropIndex][0][0], atom.positions[dropIndex][0][1], 0, protonStep, ctx, "blue");
         }
     });
 }
@@ -153,12 +175,17 @@ function drawMovingEnergy(startX, startY, endX, endY, lineCounter, speed, contex
     }
     else if (context.canvas.id == "canvas") {
         if (index < 7) {
+            console.log("firstEnergyDone");
+            event("firstEnergyDone");
             energyPresent = true;
             energyPositions1.push([50,50]);
             index += 1;
-            drawMovingPoint(canvas.width, 0, atom.positions[0][dropIndex][0], atom.positions[0][dropIndex][1], 0, 1, context, "blue");
+            drawMovingPoint(canvas.width, 0, atom.positions[0][dropIndex][0], atom.positions[0][dropIndex][1], 0, protonStep, context, "blue");
         } else {
+            console.log("secondEnergyDone");
+            event("secondEnergyDone")
             energyPositions1.push([50,80]);
+
             //phase = 2;
             //secondPhase(0);
         }
@@ -220,11 +247,14 @@ function drawMovingPoint(startX, startY, endX, endY, lineCounter, speed, context
                 ctx.arc(atomX, atomY, 1 * shellPadding + shellPaddingStart, 0, 2 * Math.PI);
                 ctx.stroke();
                 firstElectronPresent = false;
+                console.log("firstElectronHit");
+                event("firstElectronHit");
                 splitPoint(endX, endY, 0, true);  
             } else if (index == 3){
-
                 index += 1;
-                drawMovingEnergy(atom.positions[dropIndex-1][0][0], atom.positions[dropIndex-1][0][1], 50, 50, 0, 1, context);
+                console.log("firstGapFilled")
+                event("firstGapFilled")
+                drawMovingEnergy(atom.positions[dropIndex-1][0][0], atom.positions[dropIndex-1][0][1], 50, 50, 0, energySpeed, context);
             } else if (index == 5) {
                 index += 1;
                 ctx.clearRect(startX + x-5, startY + y-5, 10,10);
@@ -232,10 +262,14 @@ function drawMovingPoint(startX, startY, endX, endY, lineCounter, speed, context
                 ctx.arc(atomX, atomY, 1 * shellPadding + shellPaddingStart, 0, 2 * Math.PI);
                 ctx.stroke();
                 secondElectronPresent = false;
+                console.log("secondElectronHit");
+                event("secondElectronHit");
                 splitPoint(endX, endY, 0, false);  
             } else if (index == 7){
                 index += 1;
-                drawMovingEnergy(atom.positions[0][1][0], atom.positions[0][1][1], 50, 80, 0, 1, context);
+                console.log("secondGapFilled")
+                event("secondGapFilled")
+                drawMovingEnergy(atom.positions[0][1][0], atom.positions[0][1][1], 50, 80, 0, energySpeed, context);
             }
         } else if(context.canvas.id == "canvas2"){
             drawLines(0,ctx2);
@@ -247,12 +281,12 @@ function splitPoint(startX, startY, lineCounter, upward) {
     animate(360);
     var width = 50 - startX;
     var height = 200 - startY;
-    var lineLength = Math.sqrt(height*height + width*width) / Math.sqrt(2);
+    var lineLength = 2 * Math.sqrt(height*height + width*width) / Math.sqrt(2) / lengthDivider;
     var angleRad = Math.atan2(height, width);
     var step = getSteps(angleRad - Math.PI/4);
-    var x = lineCounter * step.x;
-    var y = lineCounter * step.y;
-    var y2 = lineCounter * (step.y * - 1.5) - 1;
+    var x = lineCounter * step.x / splitFactor;
+    var y = lineCounter * step.y / splitFactor;
+    var y2 = lineCounter * (step.y / splitFactor * - 1.5) - 1;
     if(upward){
         drawGradientElectron(startX + x, startY + y, "blue");
         drawGradientElectron(startX + x, startY + y2, "orange");
@@ -260,7 +294,7 @@ function splitPoint(startX, startY, lineCounter, upward) {
         drawGradientElectron(startX + x, startY + y, "orange");
         drawGradientElectron(startX + x, startY + y2, "blue");
     }
-    
+
     lineCounter += 1;
     if (lineCounter < lineLength){
         requestAnimationFrame(function() {
@@ -271,16 +305,16 @@ function splitPoint(startX, startY, lineCounter, upward) {
         index += 1;
         firstDropElectronPresent = false;
         //drawTrailingPoint(230,canvas.height - 250 - 1 * 50,230,canvas.height - 250, 0, 4, ctx2);
-        console.log("First drop")
-        event("drop1");
-        drawMovingPoint(atom.positions[1][0][0], atom.positions[1][0][1], atom.positions[0][0][0], atom.positions[0][0][1] - 5, 0, 8, ctx, "orange");
+        //console.log("First drop")
+        //event("drop1");
+        drawMovingPoint(atom.positions[1][0][0], atom.positions[1][0][1], atom.positions[0][0][0], atom.positions[0][0][1] - 5, 0, dropStep, ctx, "orange");
     } else {
         index += 1;
         secondDropElectronPresent = false;
-        console.log("Second drop");
-        event("drop2");
+        //console.log("Second drop");
+        //event("drop2");
         //drawTrailingPoint(180,canvas.height - 250 - 2 * 50, 180,canvas.height - 250, 0, 4, ctx2);
-        drawMovingPoint(atom.positions[2][atom.middleElectron(2)][0], atom.positions[2][atom.middleElectron(2)][1], atom.positions[0][1][0], atom.positions[0][1][1] + 4, 0, 8, ctx, "orange");
+        drawMovingPoint(atom.positions[2][atom.middleElectron(2)][0], atom.positions[2][atom.middleElectron(2)][1], atom.positions[0][1][0], atom.positions[0][1][1] + 4, 0, dropStep, ctx, "orange");
     }
 }
 
@@ -427,4 +461,33 @@ function drawTrailingPoint(startX, startY, endX, endY, lineCounter, speed, conte
 function event(event){
     var e = new Event(event);
     document.dispatchEvent(e);
+}
+
+var lastTimestamp = false;
+var measure = false;
+var refFps = 58;
+var count = 0;
+function measureFps(){
+    var thisTimestamp = new Date;
+	if(count === 0 && lastTimestamp){
+
+    	var fps = 1000.0 / (3600 * (thisTimestamp - lastTimestamp));
+	
+		var diff = refFps/fps;
+        console.log("FPS DIFF: ", diff);
+
+		dropStep = diff * 12; 
+		rotateStep = diff * 0.8;
+		protonStep = diff * 2;
+		splitFactor = diff * 2;
+
+	}
+
+	lastTimestamp = thisTimestamp;		
+    if(count++ > 60) count = 0;
+    
+    if(measure){
+
+		requestAnimationFrame(measureFps);
+	}
 }
